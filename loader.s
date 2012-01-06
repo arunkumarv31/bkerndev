@@ -30,6 +30,7 @@ loader:
 .hang:
     hlt                                 ; halt machine should kernel return
     jmp  .hang
+
  
 section .bss
  

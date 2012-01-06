@@ -1,6 +1,8 @@
 
 extern void printletter ( unsigned char charecter, unsigned int x_pos, unsigned int y_pos );
 extern void printline ( char *ptr );
+extern void clearscreen ( void );
+
 
 void kmain ( void* mbd, unsigned int magic )
 {
@@ -10,7 +12,7 @@ void kmain ( void* mbd, unsigned int magic )
         } 
 	else 
 	{
-		printline ("there is no tomorrow");
+		clearscreen();
 		printline ("there is no tomorrow");
         }
 
