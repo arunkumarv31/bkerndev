@@ -1,12 +1,16 @@
-
+#include <system.h>
 
 
 extern void printletter ( unsigned char charecter, unsigned int x_pos, unsigned int y_pos );
 extern void printline ( char *ptr );
 extern void clearscreen ( void );
-extern void gdt_install ( void );
-extern void gdt_set_gate ( int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran );
-extern void gdt_flush ( void );
+
+void gdt_install ( void );
+void gdt_set_gate ( int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran );
+void gdt_flush ( void );
+void idt_set_gate ( unsigned char num, unsigned long base, unsigned short sel, unsigned char flags );
+void idt_load ( void );
+void idt_install ( void );
 
 
 
@@ -63,7 +67,44 @@ void gdt_install ( void )
 	printline ("Installed GDT");
 }
 
+struct idt_entry
+{
+	unsigned short base_lo;
+	unsigned short sel;
+	unsigned char always0;
+	unsigned char flags;
+	unsigned short base_hi;
+} __attribute__((packed));
 
+struct idt_ptr
+{
+	unsigned short limit;
+	unsigned int base;
+} __attribute__((packed));
+
+struct idt_entry idt[256];
+struct idt_ptr idtp;
+
+void idt_set_gate ( unsigned char num, unsigned long base, unsigned short sel, unsigned char flags )
+{
+	idt[num].base_lo = base & 0xFFFF;
+	idt[num].base_hi = ( base >> 16 ) & 0xFFFF;
+	
+	idt[num].sel = sel;
+	idt[num].always0 = 0;
+	idt[num].flags = flags;
+}
+
+
+void idt_install ( void ) 
+{
+	idtp.limit = ( sizeof ( struct idt_entry) * 256 );
+	idtp.base = (unsigned int ) &idt;
+
+	memset ( &idt, 0, sizeof ( struct idt_entry ) * 256 );
+	idt_load ();
+	printline ( "Installed IDT" );
+}
 
 void kmain ( void* mbd, unsigned int magic )
 {
@@ -75,7 +116,8 @@ void kmain ( void* mbd, unsigned int magic )
 	{
 		clearscreen();
 		printline ("akv's - code is running");
-		gdt_install();
+		gdt_install ();
+		idt_install ();
         }
 
 }

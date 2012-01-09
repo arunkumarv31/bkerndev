@@ -46,7 +46,12 @@ gdt_flush:
 flush2:
 	ret		
 ;------------------------------
- 
+global idt_load
+extern idtp
+idt_load:
+	lidt[idtp]
+	ret
+;------------------------------ 
 section .bss
  
 align 4
