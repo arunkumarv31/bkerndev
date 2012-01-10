@@ -7,7 +7,7 @@ loader.o: loader.s
 	nasm -f elf -o loader.o loader.s
 
 kernel.o: kernel.c
-	gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -c -o kernel.o kernel.c -I./
+	gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -c -o kernel.o kernel.c -I./include
 
 screen.o: screen.c
 	gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -c -o screen.o screen.c
