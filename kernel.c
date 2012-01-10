@@ -1,5 +1,6 @@
 #include <system.h>
 #include <isrs.h>
+#include <screen.h>
 
 struct regs 
 {
@@ -9,9 +10,6 @@ struct regs
 	unsigned int eip, cs, eflags, useresp, ss;
 };
 
-extern void printletter ( unsigned char charecter, unsigned int x_pos, unsigned int y_pos );
-extern void printline ( char *ptr );
-extern void clearscreen ( void );
 
 void gdt_install ( void );
 void gdt_set_gate ( int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran );
@@ -153,41 +151,6 @@ void isrs_install ( void )
 	printline("Installed ISRs");
 }
 
-char *exception_messages[] = 
-{
-    "Division By Zero",
-    "Debug",
-    "Non Maskable Interrupt",
-    "Breakpoint",
-    "Into Detected Overflow",
-    "Out of Bounds",
-    "Invalid Opcode",
-    "No Coprocessor",
-    "Double Fault",
-    "Coprocessor Segment Overrun",
-    "Bad TSS",
-    "Segment Not Present",
-    "Stack Fault",
-    "General Protection Fault",
-    "Page Fault",
-    "Unknown Interrupt",
-    "Coprocessor Fault",
-    "Alignment Check",
-    "Machine Check",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved"
-};
 
 void fault_handler ( struct regs *r )
 {
@@ -197,6 +160,7 @@ void fault_handler ( struct regs *r )
 		printline ( "Exception, System halted" );
 	}
 }
+
 
 void kmain ( void* mbd, unsigned int magic )
 {
