@@ -65,6 +65,7 @@ void kmain ( void* mbd, unsigned int magic )
 		irq_install ();
 		__asm__ __volatile__ ("sti");
 		timer_install (2);
+		keyboard_install ();
 		for(;;);
 	}
 }
