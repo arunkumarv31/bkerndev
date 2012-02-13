@@ -2,6 +2,7 @@
 #include <screen.h>
 #include <gdt.h>
 #include <idt.h>
+#include <irq.h>
 
 struct gdt_entry gdt[3];
 struct gdt_ptr gp;
@@ -60,5 +61,7 @@ void kmain ( void* mbd, unsigned int magic )
 		gdt_install ();
 		idt_install ();
 		isrs_install ();
+		irq_install ();
+		__asm__ __volatile__ ("sti");
 	}
 }

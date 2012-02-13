@@ -73,8 +73,4 @@ void fault_handler ( struct regs *r )
 }
 
 
-void irq_handler ( struct regs *r )
-{
-
-}
 
