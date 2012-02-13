@@ -11,15 +11,16 @@ struct regs
 };
 
 
+extern void gdt_flush ( void );
+
 void gdt_install ( void );
 void gdt_set_gate ( int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran );
-void gdt_flush ( void );
 void idt_set_gate ( unsigned char num, unsigned long base, unsigned short sel, unsigned char flags );
 void idt_load ( void );
 void idt_install ( void );
 void isrs_install ( void ) ;
 void fault_handler ( struct regs *r );
-
+void irq_handler ( struct regs *r );
 
 struct gdt_entry 
 {
@@ -161,6 +162,11 @@ void fault_handler ( struct regs *r )
 	}
 }
 
+
+void irq_handler ( struct regs *r )
+{
+
+}
 
 void kmain ( void* mbd, unsigned int magic )
 {
