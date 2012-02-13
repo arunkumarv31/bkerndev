@@ -8,7 +8,7 @@ static unsigned short *videoram = (unsigned short *)0xB8000;
 void printletter ( unsigned char charecter, unsigned int x_pos, unsigned int y_pos );
 void printline ( char *ptr );
 void clearscreen ( void );
-
+void printchar (  unsigned char character );
 
 void printline ( char *ptr )
 {
@@ -20,6 +20,14 @@ void printline ( char *ptr )
 	y_pos++;
 }
 
+
+void printchar (  unsigned char character )
+{
+	unsigned int index = ( y_pos * 80 ) + x_pos;
+        unsigned short *where = videoram + index;
+        *where = character | (attribute << 8);
+	x_pos++;
+}
 
 void printletter ( unsigned char character, unsigned int x_pos, unsigned int y_pos )
 {

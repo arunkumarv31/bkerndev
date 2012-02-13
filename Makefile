@@ -1,8 +1,8 @@
 all: kernel.bin
 
 
-kernel.bin: loader.o kernel.o screen.o memory.o gdt.o idt.o irq.o
-	ld -T linker.ld -o kernel.bin loader.o kernel.o screen.o memory.o gdt.o idt.o irq.o
+kernel.bin: loader.o kernel.o screen.o memory.o gdt.o idt.o irq.o timer.o
+	ld -T linker.ld -o kernel.bin loader.o kernel.o screen.o memory.o gdt.o idt.o irq.o timer.o
 
 loader.o: loader.s
 	nasm -f elf -o loader.o loader.s
@@ -24,6 +24,9 @@ idt.o: idt.c
 
 irq.o: irq.c
 	gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -c -o irq.o irq.c -I./include
+
+timer.o: timer.c
+	gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -c -o timer.o timer.c -I./include
 
 clean:
 	rm -rf *.o kernel.bin

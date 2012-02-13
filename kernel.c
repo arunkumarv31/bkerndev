@@ -4,6 +4,7 @@
 #include <idt.h>
 #include <irq.h>
 
+
 struct gdt_entry gdt[3];
 struct gdt_ptr gp;
 
@@ -63,5 +64,8 @@ void kmain ( void* mbd, unsigned int magic )
 		isrs_install ();
 		irq_install ();
 		__asm__ __volatile__ ("sti");
+		timer_install (2);
+		for(;;);
 	}
 }
+
