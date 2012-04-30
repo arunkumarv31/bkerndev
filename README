@@ -1,0 +1,22 @@
+arunkumar v <arunkumarv31@gmail.com>
+
+tutorials from Bran's Kernel Development by Brandon Friesen
+http://www.osdever.net/bkerndev/Docs/title.htm
+
+Installed and configured GDT, IDT, IRQs, ISRs and timer interrupt.
+The code will print what we are typing on the screen and at the same time prints a message when the timer interrupt fires.
+
+Work environment : Ubuntu 10.04 LTS 32 bit 
+requirement : nasm assembler, qemu
+
+to emulate:
+make 
+qemu -kernel kernel.bin
+
+to run it from a bootable pendrive (not sure about this, I forgot)
+make a bootable usb
+http://www.pendrivelinux.com/boot-multiple-iso-from-usb-via-grub2-using-linux/
+After making the usb bootable mount the usb and copy kernel.bin to the usb (to any folder)
+Then boot from usb (you can use qemu also)
+then root=(had0,0)
+boot
