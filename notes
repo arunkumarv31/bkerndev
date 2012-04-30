@@ -1,1 +1,28 @@
 edit irq isr 40 onwards in loader
+
+Create a bootable pendrive installed with GRUB:
+I. Format your USB Flash Drive to use a Single Partition:
+
+Open a terminal and type sudo su
+Type fdisk -l (and note which device is your USB Drive)
+Type fdisk /dev/sdx (replacing x with your actual usb device)
+Type d (to delete the existing partition)
+Type n (to create a new partition)
+Type p (for primary partition)
+Type 1 (to create the first partition)
+Press Enter (to use the first cylinder)
+Press Enter again (to use the default value as the last cylinder)
+Type a (for active)
+Type 1 (to mark the first partition active "bootable")
+Type w (to write the changes and close fdisk)
+II. Create a Fat32 Filesystem on the USB Flash Drive:
+
+Type umount /dev/sdx1 (to unmount the mounted partition)
+Type mkfs.vfat -F 32 -n MULTIBOOT /dev/sdx1 (to format the partition as fat32)
+III. Install Grub2 on the USB Flash Drive:
+
+Type mkdir /media/MULTIBOOT (to create a directory for the mountpoint)
+Type mount /dev/sdx1 /media/MULTIBOOT (to mount the USB)
+Type grub-install --force --no-floppy --root-directory=/media/MULTIBOOT /dev/sdx (to install Grub2)
+Type cd /media/MULTIBOOT/boot/grub (to change directory)
+Type wget pendrivelinux.com/downloads/multibootlinux/grub.cfg (to get the grub.cfg file)
