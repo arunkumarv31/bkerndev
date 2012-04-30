@@ -1,0 +1,2 @@
+in real mode : Segment:offset
+in protected mode: Descriptor:offset
