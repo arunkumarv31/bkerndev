@@ -7,7 +7,7 @@ Installed and configured GDT, IDT, IRQs, ISRs and timer interrupt.
 The code will print what we are typing on the screen and at the same time prints a message when the timer interrupt fires.
 
 Work environment : Ubuntu 10.04 LTS 32 bit 
-requirement : nasm assembler, qemu
+requirement : nasm assembler, qemu ( apt-get install nasm qemu )
 
 to emulate:
 make 
