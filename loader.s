@@ -3,7 +3,7 @@
 jmp 07C0h:start         ; Goto segment 07C0
 
 ;-----------------------------------------
-    msg     db  'Hello Cyberspace!',0
+    msg     db  'Hello World',0
 
 
     start:
