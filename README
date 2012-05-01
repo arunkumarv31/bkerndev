@@ -1,0 +1,15 @@
+It is a simple code working with qemu or any pen drive
+make the code
+just do qemu loader.bin
+
+to install it into a pen drive
+dd if=loader.bin of=/dev/sdc count=512 bs=1
+
+be careful with the output(of) device clear the dmesg (dmesg -c) before inserting a usb drive and after inserting the pen drive check 'dmesg' there /dev/sdb or sdc will be shown.
+
+qemu loader.bin 
+qemu /dev/sdc
+
+or to see it in real reboot the system making usb boot high priority in bios
+
+AA55 - boot signature (Google it)
