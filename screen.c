@@ -18,6 +18,10 @@ void printline ( char *ptr )
 	}
 	x_pos = 0;
 	y_pos++;
+	if ( y_pos++ > 25 )
+	{
+		clearscreen();
+	}
 }
 
 
