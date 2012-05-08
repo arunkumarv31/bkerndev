@@ -1,7 +1,7 @@
 all: kernel.bin
 
 
-kernel.bin: loader.o kernel.o screen.o memory.o gdt.o idt.o irq.o timer.o kb.o
+kernel.bin: loader.o kernel.o screen.o memory.o gdt.o idt.o irq.o timer.o kb.o linker.ld
 	ld -T linker.ld -o kernel.bin loader.o kernel.o screen.o memory.o gdt.o idt.o irq.o timer.o kb.o
 
 loader.o: loader.s
