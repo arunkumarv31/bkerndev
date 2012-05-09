@@ -47,7 +47,39 @@ char *exception_messages[] =
     "Reserved"
 };
 
+unsigned int *page_directory;
+unsigned int *first_page_table;
 
+void paging_codes ( void )
+{
+	page_directory = ( unsigned int *) 0x9C000;
+	first_page_table = page_directory + 0x1000;
+
+	int i = 0;
+	for(i = 0; i < 1024; i++)
+	{
+		//attribute: supervisor level, read/write, not present.
+    		page_directory[i] = 0 | 2; 
+	}
+	unsigned int address = 0; 
+ 
+	for(i = 0; i < 1024; i++)
+	{
+    		first_page_table[i] = address | 3; 
+    		address = address + 4096; 
+	}
+	page_directory[0] = first_page_table; 
+	page_directory[0] |= 3;
+	printline ( "before paging" );	
+	//moves page directory into CR3 and finally enable paging in CR0
+	asm volatile("mov %0, %%cr3":: "b"(page_directory));
+	//reads cr0, switches the "paging enable" bit, and writes it back.
+	unsigned int cr0;
+	asm volatile("mov %%cr0, %0": "=b"(cr0));
+	cr0 |= 0x80000000;
+	asm volatile("mov %0, %%cr0":: "b"(cr0));
+	printline ( "paging enabled" );	
+}
 
 void kmain ( void* mbd, unsigned int magic )
 {
@@ -59,6 +91,7 @@ void kmain ( void* mbd, unsigned int magic )
 	{
 		clearscreen();
 		printline ("akv's - code is running");
+		paging_codes ();
 		gdt_install ();
 		idt_install ();
 		isrs_install ();
@@ -69,4 +102,5 @@ void kmain ( void* mbd, unsigned int magic )
 		for(;;);
 	}
 }
+
 

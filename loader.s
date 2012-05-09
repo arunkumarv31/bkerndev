@@ -15,7 +15,7 @@ align 4
     dd MAGIC
     dd FLAGS
     dd CHECKSUM
- 
+
 ; reserve initial kernel stack space
 STACKSIZE equ 0x4000                    ; that's 16k.
  
