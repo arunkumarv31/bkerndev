@@ -1,22 +1,26 @@
 arunkumar v <arunkumarv31@gmail.com>
 
-tutorials from Bran's Kernel Development by Brandon Friesen
-http://www.osdever.net/bkerndev/Docs/title.htm
+http://wiki.osdev.org/Setting_Up_Paging
 
-Installed and configured GDT, IDT, IRQs, ISRs and timer interrupt.
-The code will print what we are typing on the screen and at the same time prints a message when the timer interrupt fires.
+WORKING BUT DIDN'T get the concept. How to create a virtual address to access the current code. Or how to add some code into a page table.
 
-Work environment : Ubuntu 10.04 LTS 32 bit 
-requirement : nasm assembler, qemu ( apt-get install nasm qemu )
+In this branch I tried to do paging
 
-to emulate:
-make 
-qemu -kernel kernel.bin
+First we need to find out the end of the kernel. For that put ( end = . ) at linkscript. Then access that memory location for that point to create a page directory and then after a 1024 * 4 byte page directory create a page table.
+//the page directory comes right after the kernel - NOTE: make sure the address is page aligned!
 
-to run it from a bootable pendrive (not sure about this, I forgot)
-make a bootable usb
-http://www.pendrivelinux.com/boot-multiple-iso-from-usb-via-grub2-using-linux/
-After making the usb bootable mount the usb and copy kernel.bin to the usb (to any folder)
-Then boot from usb (you can use qemu also)
-then root=(had0,0)
-boot
+unsigned int page_aligned_end = (((unsigned int*)end) & 0xFFFFF000) + 0x1000;
+unsigned int *page_directory = (unsigned int*)page_aligned_end;
+
+If you don't know where the end of your kernel is, then you need to edit your linker script to tell you where the end of your kernel is. In the meantime, use something like this.(BUT DIDN'T WORK)
+
+So I did this 
+//this is only a temporary solution. Find out where your kernel ends!
+unsigned int *page_directory = (unsigned int*) 0x9C000;//Make sure that this address is properly page aligned
+
+
+Then there we need to add a page directory and page table.
+
+Then enable paging.
+
+But once the paging is enabled. Next printline is not working. After paging is enabled the code has to be in the page where the page table points to.So that page has to be filled with the code may be. Don't know exactly. Anyway after paging is enabled, no code is working there.
