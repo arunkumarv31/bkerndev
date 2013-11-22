@@ -1,8 +1,5 @@
 arunkumar v <arunkumarv31@gmail.com>
 
-tutorials from Bran's Kernel Development by Brandon Friesen
-http://www.osdever.net/bkerndev/Docs/title.htm
-
 Installed and configured GDT, IDT, IRQs, ISRs and timer interrupt.
 The code will print what we are typing on the screen and at the same time prints a message when the timer interrupt fires.
 
